@@ -6,6 +6,7 @@ let value;
 
 const { spawn } = require('child_process');
 
+
 const morgan = require('morgan');
 
 const helmet = require('helmet');
@@ -24,10 +25,19 @@ const error = require('./middleware/error');
 
 const pythonRoutes = require('./routes/python');
 
+const userRoutes = require('./routes/users');
+
+const authRoutes = require('./routes/auth');
+
+const reviewRoutes = require('./routes/reviews');
+
 require('./utilities/unhandle');
 
 //APPLICATION CONFIGURATION.....
 require('dotenv').config({ path: './config/.env' })
+
+//Database Connection...
+require('./config/db')();
 
 //Body Parsing.....
 
@@ -55,6 +65,9 @@ app.use(morgan('dev'));
 
 //ROUTES.......
 app.use(pythonRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 
 
