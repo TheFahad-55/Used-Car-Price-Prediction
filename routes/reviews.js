@@ -6,6 +6,8 @@ const Review = require('../models/Review').Review;
 
 const auth = require('../middleware/auth');
 
+const admin = require('../middleware/admin');
+
 const asyncMidleware = require('../middleware/async').asyncMiddleware;
 
 const router = express.Router();

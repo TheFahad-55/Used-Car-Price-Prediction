@@ -31,6 +31,8 @@ const authRoutes = require('./routes/auth');
 
 const reviewRoutes = require('./routes/reviews');
 
+const adminRoutes = require('./routes/admin');
+
 require('./utilities/unhandle');
 
 //APPLICATION CONFIGURATION.....
@@ -68,7 +70,7 @@ app.use(pythonRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/reviews', reviewRoutes);
-
+app.use('/api/admin/users', adminRoutes);
 
 
 spawn('python', ['project.py']);
