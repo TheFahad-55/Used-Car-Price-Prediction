@@ -12,16 +12,19 @@ const validateUser = require('../models/User').validateUser;
 
 const asyncMiddleware = require('../middleware/async').asyncMiddleware;
 
-//SIGNUP
+//@route    /api/users  POST 
+//@description  Register,Add new user.
+//@access         Public
 router.post("", asyncMiddleware(async(req, res) => {
     const { error } = validateUser(req.body);
     if (error) {
-        return res.status(400).send(error.details[0].message);
+        return res.status(400).json({ message: error.details[0].message });
+
     }
 
     let user = await User.findOne({ email: req.body.email });
     if (user) {
-        return res.status(400).send("USER WITH THIS EMAIL ALREADY EXISTS");
+        return res.status(400).json({ message: "USER WITH THIS EMAIL ALREADY EXISTS" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -35,9 +38,9 @@ router.post("", asyncMiddleware(async(req, res) => {
     });
     const result = await User.create(user);
     if (!result) {
-        return res.status(500).send("INTERNAL SERVER ERROR");
+        return res.status(500).json({ message: "INTERNAL SERVER ERROR" });
     }
-    res.status(201).send({ message: "Successfully Registered", user: _.pick(result, ["name", "email", "gender"]) });
+    res.status(201).json({ message: "Successfully Registered", user: _.pick(result, ["_id", "name", "email", "gender"]) });
 
 }));
 

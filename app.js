@@ -4,7 +4,7 @@ const app = express();
 
 let value;
 
-const { spawn } = require('child_process');
+
 
 
 const morgan = require('morgan');
@@ -32,6 +32,8 @@ const authRoutes = require('./routes/auth');
 const reviewRoutes = require('./routes/reviews');
 
 const adminRoutes = require('./routes/admin');
+
+const dataRoutes = require('./routes/data');
 
 require('./utilities/unhandle');
 
@@ -66,14 +68,25 @@ app.use(hpp());
 app.use(morgan('dev'));
 
 //ROUTES.......
-app.use(pythonRoutes);
+
+
+
+
+
+
+app.use('/python', pythonRoutes);
+app.use(dataRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/reviews', reviewRoutes);
-app.use('/api/admin/users', adminRoutes);
+app.use('/api/admin', adminRoutes);
+app.use((req, res) => {
+    res.status(404).send("Endpoint Not Found");
+
+});
 
 
-spawn('python', ['project.py']);
+
 
 
 //Error Middleware........

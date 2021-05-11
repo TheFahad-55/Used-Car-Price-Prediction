@@ -30,7 +30,7 @@ import requests
 #from sklearn.ensemble import RandomForestClassifier
 
 """# User Input Getting Data From Nodejs"""
-get = requests.get('http://localhost:3000/getdata')  # GET request
+get = requests.get('http://localhost:3000/python/getdata')  # GET request
 data = get.json()
 
 user_company = data['userCompany']
@@ -327,7 +327,7 @@ pred = model.predict([[user_company, user_transmission, user_assembly, user_colo
 result = {
     "price": pred[0]
 }
-requests.post('http://localhost:3000/postdata',
+requests.post('http://localhost:3000/python/postdata',
               json=result)  # the POST request
 print('Sended Successfully')
 # extra....
